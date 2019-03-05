@@ -1,0 +1,64 @@
+---
+Description: AWS Lambda Boilerplate
+
+Parameters:
+  Environment:
+    Type: String
+    Default: ''
+
+Resources:
+  Lambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Ref AWS::StackName
+      Description: AWS Lambda Boilerplate
+      Runtime: nodejs8.10
+      Timeout: 30
+      MemorySize: 128
+      Handler: index.handler
+      Code:
+        ZipFile: exports.handler = async function handler (event) {console.log(JSON.stringify(event, null, 2))}
+      Role: !Sub ${ExecutionRole.Arn}
+      Environment:
+        Variables:
+          SOME_VARIABLE: some value
+
+  # LogStream and Rentention
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${AWS::StackName} # note: the /aws/lambda/ is mandatory as logstreams are automatically created by AWS in this LogGroup
+      RetentionInDays: 7
+
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref AWS::StackName
+      Path: '/'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: AllowDecryptingEnvironmentVariables
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - kms:Decrypt
+                Resource: '*' # TODO: Limit this to the real key
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+  # TODO: Use Lambda Permission to trigger the lambda function
+  # LambdaInvokePermission:
+  #   Type: AWS::Lambda::Permission
+  #   Properties:
+  #     FunctionName: !GetAtt
+  #       - MyLambdaFunction
+  #       - Arn
+  #     Action: 'lambda:InvokeFunction'
+  #     Principal: s3.amazonaws.com
+  #     SourceAccount: !Ref 'AWS::AccountId'
+  #     SourceArn: !Sub ${MyBucket.Arn}
