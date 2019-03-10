@@ -1,4 +1,4 @@
-import { SharedIniFileCredentials, CloudFormation, AWSError, config } from 'aws-sdk'
+import { SharedIniFileCredentials, CloudFormation, AWSError } from 'aws-sdk'
 import Config from './lambda.config'
 import { readFileSync } from 'fs'
 import { UpdateStackInput, StackEvent } from 'aws-sdk/clients/cloudformation'
@@ -37,9 +37,14 @@ async function createOrUpdate() {
         return Promise.reject(err)
       }
     })
+  await logStackEvents(start)
+}
 
+async function logStackEvents(start: Date, expected = /(CREATE_COMPLETE|UPDATE_COMPLETE)$/) {
   const shown = new Set<string>()
-  for (let status = ''; !status.match(finished); ) {
+  const finished = /(CREATE_COMPLETE|UPDATE_COMPLETE|DELETE_COMPLETE|ROLLBACK_COMPLETE|ROLLBACK_FAILED|CREATE_FAILED|DELETE_FAILED)$/
+  let status = ''
+  while (!status.match(finished)) {
     await delay(1000)
     const response = await cloudformation.describeStackEvents({ StackName: Config.name }).promise()
     const events = response.StackEvents || []
@@ -49,21 +54,24 @@ async function createOrUpdate() {
       .forEach(e => {
         logEvent(e)
         shown.add(e.EventId)
-        status = e.ResourceStatus || ''
+        if (e.ResourceType === 'AWS::CloudFormation::Stack') {
+          status = e.ResourceStatus || ''
+        }
       })
   }
+  if (!status.match(expected)) throw `Unexpected Stack Status ${status}`
 }
 
-const finished = /(CREATE_COMPLETE|UPDATE_COMPLETE|DELETE_COMPLETE|ROLLBACK_COMPLETE|ROLLBACK_FAILED|CREATE_FAILED|DELETE_FAILED)$/
-
 function logEvent(e: StackEvent): void {
-  console.log(
-    e.Timestamp,
+  const props = [
+    e.Timestamp.toISOString(),
     e.LogicalResourceId,
     e.ResourceStatus,
     e.ResourceType,
-    e.ResourceStatusReason
-  )
+    e.ResourceStatusReason,
+  ]
+  const line = props.map(s => s || '').join('  ')
+  console.log(line)
 }
 
 function delay(ms: number): Promise<void> {
