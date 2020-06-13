@@ -1,33 +1,24 @@
 # AWS Lambda Typescript Boilerplate Code
 
-Fork this repository to quickstart lambda development with typescript.
+Fork this repository to quickstart lambda development with Typescript and CDK.
 
-## TODO
+## Prerequisites
 
-- think about conventions if you deploy the same lambda function code to different 'instances' of lambda,
-  e.g. if you have a stage and a prod lambda function in the same account
-
-  - npm run stack stage
-
-- Configuration
-  per config file or everything in aws environment variables? npm run update:prod
+- setup [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
+- run `npm ci && cd infrastructure && npm ci`
 
 ## Commands
 
-Configure settings in `lambda.json` or `lambda.config.js`
-
-- `npm run stack` create or update a cloudformation stack for this lambda function
-- `npm run update` update lambda function code (aka deploy)
-- `npm run alias version tag` tag a version with an alias, e.g. set version to 'PROD'
-- `npm run attach` attac
+- `npm run build` transpile typescript using parcel
+- `npm run zip` creates the lambda.zip from dist folder
+- `npm run stack` uses CDK to create update CloudFormation infrastructure see [CDK readme](./infrastructure/README.md)
+   add profile if necessary, e.g. `-- --profile atombrenner`
 
 ## Tools
 
-- webpack for bundling and treeshaking
-- jest for testing
-- prettier to format code
-- husky for automatically running tests before committing
+- [CDK](https://docs.aws.amazon.com/cdk/api/latest/docs/aws-construct-library.html) for managing infrastructure with AWS CloudFormation
+- [Parcel](https://github.com/parcel-bundler/parcel) for transpiling, bundling and tree shaking
+- [Jest](https://jestjs.io/) for testing
+- [Prettier](https://prettier.io/) for code formatting
+- [Husky](https://github.com/typicode/husky) for managing git hooks, e.g. run tests before committing
 
-## Hints
-
-- start scripts from the scripts folder with [ts-node](https://github.com/TypeStrong/ts-node) scripts/stack.ts

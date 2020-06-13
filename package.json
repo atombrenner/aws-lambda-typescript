@@ -9,9 +9,10 @@
     "clean": "rm -rf ./dist",
     "build": "parcel build src/index.ts",
     "zip": "cd dist && zip -q -r lambda.zip . && ls -lh lambda.zip",
-    "predeploy": "npm t && npm run build && npm run zip",
-    "deploy": "aws lambda update-function-code --function-name aws-lambda-typescript --zip-file fileb://dist/lambda.zip",
-    "stack": "ts-node scripts/stack.ts"
+    "dist": "npm t && npm run build && npm run zip",
+    "predeploy": "npm run dist",
+    "deploy": "aws lambda update-function-code --function-name MyLambdaFunction --zip-file fileb://dist/lambda.zip",
+    "stack": "npm run dist && cd infrastructure && npx cdk deploy"
   },
   "husky": {
     "hooks": {

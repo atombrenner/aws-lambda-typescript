@@ -1,11 +1,11 @@
-import { expect as expectCDK, matchTemplate, MatchStyle } from '@aws-cdk/assert'
-import * as cdk from '@aws-cdk/core'
-import { Stack } from '../lib/stack'
+import { SynthUtils } from '@aws-cdk/assert'
+import { App } from '@aws-cdk/core'
+import { LambdaStack } from '../lib/lambda-stack'
 
-test('Empty Stack', () => {
-  const app = new cdk.App()
+test('Snapshot', () => {
+  const app = new App()
   // WHEN
-  const stack = new Stack(app, 'MyTestStack')
+  const stack = new LambdaStack(app, 'MyTestStack')
   // THEN
-  expectCDK(stack).to(matchTemplate({ Resources: {} }, MatchStyle.EXACT))
+  expect(SynthUtils.toCloudFormation(stack)).toMatchSnapshot()
 })
