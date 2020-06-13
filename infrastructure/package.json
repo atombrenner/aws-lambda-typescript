@@ -1,5 +1,5 @@
 {
-  "name": "infrastructure",
+  "name": "lambda-stack",
   "version": "0.1.0",
   "bin": {
     "infrastructure": "bin/infrastructure.js"
@@ -21,8 +21,11 @@
     "typescript": "~3.7.2"
   },
   "dependencies": {
+    "@aws-cdk/aws-events": "^1.45.0",
+    "@aws-cdk/aws-events-targets": "^1.45.0",
     "@aws-cdk/aws-iam": "^1.45.0",
     "@aws-cdk/aws-lambda": "^1.45.0",
+    "@aws-cdk/aws-lambda-event-sources": "^1.45.0",
     "@aws-cdk/core": "1.45.0",
     "source-map-support": "^0.5.16"
   }
