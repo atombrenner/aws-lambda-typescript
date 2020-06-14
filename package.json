@@ -8,28 +8,27 @@
     "start": "ts-node -T src/start.ts",
     "test": "jest",
     "clean": "rm -rf ./dist",
-    "build": "parcel build src/lambda.ts",
-    "zip": "cd dist && zip -q -r lambda.zip . && ls -lh lambda.zip",
-    "dist": "npm t && npm run build && npm run zip",
+    "build": "parcel build --target node src/lambda.ts",
+    "zip": "cd dist && zip -q -r lambda.zip .",
+    "dist": "npm t && npm run clean && npm run build && npm run zip",
     "predeploy": "npm run dist",
     "deploy": "aws lambda update-function-code --function-name MyLambdaFunction --zip-file fileb://dist/lambda.zip",
     "stack": "npm run dist && cd infrastructure && npx cdk deploy"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test"
+      "pre-commit": "npm run dist"
     }
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^1.0.0-gamma.2",
-    "@aws-sdk/client-sts": "^1.0.0-gamma.2",
-    "remeda": "0.0.20"
+    "@aws-sdk/client-sts": "^1.0.0-gamma.2"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
     "@babel/preset-typescript": "^7.10.1",
-    "@types/aws-lambda": "^8.10.19",
+    "@types/aws-lambda": "^8.10.56",
     "@types/jest": "^26.0.0",
     "@types/node": "^12.12.47",
     "babel-jest": "^26.0.1",

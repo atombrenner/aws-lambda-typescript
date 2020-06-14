@@ -9,6 +9,7 @@ const s3 = new S3Client({
 })
 
 export async function handler(event: ScheduledEvent) {
+  console.log(JSON.stringify(event, null, 2))
   console.log('Housekeeping started for Bucket ' + bucket)
   await housekeeping(s3, bucket)
   console.log('Housekeeping finished')

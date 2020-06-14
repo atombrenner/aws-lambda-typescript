@@ -1,10 +1,11 @@
 import { getArtifactsToDelete, Artifact } from './housekeeping'
 
 const MiliSecondsPerDay = 24 * 60 * 60 * 1000
+const Now = Date.now()
 
 const toArtifact = (ageInDays: number): Artifact => ({
   key: `folder/artifact-${ageInDays}.zip`,
-  lastModified: Date.now() - ageInDays * MiliSecondsPerDay + MiliSecondsPerDay / 2,
+  lastModified: Now - (ageInDays * MiliSecondsPerDay + MiliSecondsPerDay / 2),
   size: 1,
 })
 
