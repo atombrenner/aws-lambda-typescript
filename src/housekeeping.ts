@@ -1,4 +1,4 @@
-import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3'
+import { S3Client, ListObjectsV2Command, DeleteObjectsCommand } from '@aws-sdk/client-s3'
 
 export type Artifact = {
   key: string
@@ -12,7 +12,7 @@ export const housekeeping = async (s3: S3Client, bucket: string) => {
     folders.map(async (folder) => {
       const artifacts = await listArtifacts(s3, bucket, folder)
       const artifactsToDelete = getArtifactsToDelete(artifacts)
-      await deleteArtifacts(s3, bucket, artifactsToDelete)
+      await deleteArtifacts(s3, bucket, folder, artifactsToDelete)
     })
   )
 }
@@ -61,18 +61,29 @@ export function getArtifactsToDelete(artifacts: readonly Artifact[], keepCount =
     .slice(0, Math.max(0, artifacts.length - keepCount))
 }
 
-async function deleteArtifacts(s3: S3Client, Bucket: string, artifacts: Artifact[]) {
-  console.log(artifacts.map((a) => a.key).join('\n'))
+async function deleteArtifacts(
+  s3: S3Client,
+  Bucket: string,
+  folder: string,
+  artifacts: readonly Artifact[]
+) {
+  if (artifacts.length === 0) return
+  artifacts = artifacts.slice(0, 1000)
+  folder = folder.substring(0, folder.length - 1)
+
+  const Objects = artifacts.slice(0, 1000).map((a) => ({ Key: a.key }))
+  const command = new DeleteObjectsCommand({
+    Bucket,
+    Delete: { Objects },
+  })
+  const output = await s3.send(command)
+
+  if (output.Deleted) {
+    console.log(`Deleted ${output.Deleted.length} ${folder} artifacts:`)
+    console.log(output.Deleted.map((d) => d.Key).join('\n'))
+  }
+  if (output.Errors) {
+    console.error(`Could not delete ${output.Errors.length} ${folder} artifacts:`)
+    console.error(output.Errors.map((e) => `Key: ${e.Key} Error: ${e.Message}`).join('\n'))
+  }
 }
-
-// async function deleteObjects(Objects: ObjectIdentifier[]) {
-//   const response = await s3.deleteObjects({
-//     Bucket,
-//     Delete: { Objects },
-//   })
-//   if (response.Errors) errorCount += response.Errors.length
-//   if (response.Deleted) deleteCount += response.Deleted.length
-
-//   const fmtNumber = (n: number) => n.toString().padStart(10)
-//   console.log(`Deleted: ${fmtNumber(deleteCount)} Errors: ${fmtNumber(errorCount)}`)
-// }
