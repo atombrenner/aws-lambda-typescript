@@ -8,7 +8,7 @@
     "start": "ts-node -T src/start.ts",
     "test": "jest",
     "clean": "rm -rf ./dist",
-    "build": "parcel build src/index.ts",
+    "build": "parcel build src/lambda.ts",
     "zip": "cd dist && zip -q -r lambda.zip . && ls -lh lambda.zip",
     "dist": "npm t && npm run build && npm run zip",
     "predeploy": "npm run dist",

@@ -12,7 +12,7 @@ test('Processing any event should call housekeeping', async () => {
 
   await handler(event)
 
-  expect(console.log).toHaveBeenNthCalledWith(2, expect.stringMatching(/^Housekeeping started/))
+  expect(console.log).toHaveBeenNthCalledWith(1, expect.stringMatching(/^Housekeeping started/))
   expect(housekeeping).toHaveBeenCalled()
   expect(console.log).toHaveBeenLastCalledWith('Housekeeping finished')
 })

@@ -13,6 +13,7 @@ Fork this repository to quickstart lambda development with Typescript and CDK.
 - `npm run zip` creates the lambda.zip from dist folder
 - `npm run stack` uses CDK to create update CloudFormation infrastructure see [CDK readme](./infrastructure/README.md)
    add profile if necessary, e.g. `-- --profile atombrenner`
+- `npm start` will run the lambda function locally
 
 ## Tools
 
