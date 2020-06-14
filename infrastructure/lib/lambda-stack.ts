@@ -11,7 +11,7 @@ export class LambdaStack extends Stack {
     const myLambda = new Function(this, 'MyLambdaFunction', {
       functionName: 'MyLambdaFunction',
       runtime: Runtime.NODEJS_12_X,
-      handler: 'index.handler',
+      handler: 'lambda.handler',
       code: Code.fromAsset('../dist/lambda.zip'),
       memorySize: 256,
       timeout: Duration.minutes(5),
