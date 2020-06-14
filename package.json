@@ -5,6 +5,7 @@
   "license": "GPL-3.0-only",
   "repository": "github:atombrenner/aws-lambda-typescript",
   "scripts": {
+    "start": "ts-node -T src/start.ts",
     "test": "jest",
     "clean": "rm -rf ./dist",
     "build": "parcel build src/index.ts",
@@ -20,8 +21,9 @@
     }
   },
   "dependencies": {
-    "aws-sdk": "^2.411.0",
-    "zlib": "^1.0.5"
+    "@aws-sdk/client-s3": "^1.0.0-gamma.2",
+    "@aws-sdk/client-sts": "^1.0.0-gamma.2",
+    "remeda": "0.0.20"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
