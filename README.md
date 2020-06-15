@@ -5,16 +5,17 @@ Fork this repository to quickstart lambda development with Typescript and CDK.
 ## Prerequisites
 
 - setup [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
-- run `npm ci && cd infrastructure && npm ci`
+- run `npm ci && cd infrastructure && npm ci && npm dedupe`
 
 ## Commands
 
 - `npm t` executes test with jest
-- `npm run build` creates the transpiled lambda bundle with webpack and babel
-- `npm run zip` creates the lambda.zip from dist folder
+- `npm run build` creates ./dist/lambda.js bundle
+- `npm run zip` creates the ./dist/lambda.zip from ./dist/lambda.js r
 - `npm run dist` runs all of the above steps
-- `npm run stack` uses CDK to create update CloudFormation infrastructure see [CDK readme](./infrastructure/README.md)
-   add profile if necessary, e.g. `-- --profile atombrenner`
+- `npm run stack` uses CDK to create or update CloudFormation infrastructure, see [CDK readme](./infrastructure/README.md).
+   Add profile if necessary, e.g. `-- --profile atombrenner`. Will deploy lambda.zip if changed.
+- `npm run deploy` uses AWS CLI to just deploy the lambda.zip package code to the existing lambda function
 - `npm start` will run the lambda function locally
 
 ## Tools

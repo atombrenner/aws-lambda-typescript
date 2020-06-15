@@ -8,6 +8,7 @@ module.exports = {
   output: {
     path: path.resolve('./dist'),
     filename: 'lambda.js',
+    libraryTarget: 'commonjs',
   },
   resolve: {
     extensions: ['.ts', '.js'],
@@ -16,7 +17,7 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        //include: path.resolve('./src'),
+        include: path.resolve('./src'),
         use: [
           {
             loader: 'babel-loader',
