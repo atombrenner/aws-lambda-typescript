@@ -1,6 +1,6 @@
 # AWS Lambda Typescript Boilerplate Code
 
-Fork this repository to quickstart lambda development with Typescript and CDK.
+Fork this repository to quickstart lambda development with Typescript and CDK and the [AWS SDK JS V3](https://github.com/aws/aws-sdk-js-v3)
 
 ## Prerequisites
 
@@ -30,4 +30,13 @@ Fork this repository to quickstart lambda development with Typescript and CDK.
 
 ## Gotchas
 
-It was necessary to run `npm dedupe` before webpack to get the bundle size down. Maybe it has somehting to do with the gamma versioning, which is not semver.
+The generated artifact (bundle) got very big. It was necessary to
+- use webpack. Parcel and rollup bundles did not bundle the AWS SDK at all.
+- run `npm dedupe`, else webpack includes the same version of the tslib helper library multiple times in the same bundle
+- could not use ts-loader, as it breaks tree shaking. In theory, if tsc emits es2015 modules, it should work.
+  But setting tsconfig.json module to "es2015" breaks importing modules from node_modules
+- run `npx tsc` as a separate step before running because babel-loader only transpiles but does not type check
+
+## TODO
+Figure out how to use ts-loader, as this is using tsc which is much safer as the babel transpilation which has a long
+list of [caveeats](https://babeljs.io/docs/en/babel-plugin-transform-typescript#caveats) on its own

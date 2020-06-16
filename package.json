@@ -8,7 +8,7 @@
     "start": "ts-node -T src/start.ts",
     "test": "jest",
     "clean": "rm -rf ./dist",
-    "build": "webpack",
+    "build": "tsc --noEmit && webpack",
     "zip": "cd dist && zip -q -r lambda.zip lambda.js",
     "dist": "npm ci && npm dedupe && npm t && npm run build && npm run zip",
     "deploy": "aws lambda update-function-code --function-name MyLambdaFunction --zip-file fileb://dist/lambda.zip",
