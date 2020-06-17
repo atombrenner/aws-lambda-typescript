@@ -3,18 +3,6 @@
 exports[`Snapshot 1`] = `
 Object {
   "Parameters": Object {
-    "AssetParameterscd9445adfe2f8618dd98ba606ee1aade4fc1318dfed23331a89df93a50ec2673ArtifactHash7CDB0123": Object {
-      "Description": "Artifact hash for asset \\"cd9445adfe2f8618dd98ba606ee1aade4fc1318dfed23331a89df93a50ec2673\\"",
-      "Type": "String",
-    },
-    "AssetParameterscd9445adfe2f8618dd98ba606ee1aade4fc1318dfed23331a89df93a50ec2673S3BucketAB04CC1D": Object {
-      "Description": "S3 bucket for asset \\"cd9445adfe2f8618dd98ba606ee1aade4fc1318dfed23331a89df93a50ec2673\\"",
-      "Type": "String",
-    },
-    "AssetParameterscd9445adfe2f8618dd98ba606ee1aade4fc1318dfed23331a89df93a50ec2673S3VersionKeyA95CA6A1": Object {
-      "Description": "S3 key for asset version \\"cd9445adfe2f8618dd98ba606ee1aade4fc1318dfed23331a89df93a50ec2673\\"",
-      "Type": "String",
-    },
     "AssetParametersceefd938ac7ea929077f2e2f4cf09b5034ebdd14799216b1281f4b28427da40aArtifactHashEDC522F0": Object {
       "Description": "Artifact hash for asset \\"ceefd938ac7ea929077f2e2f4cf09b5034ebdd14799216b1281f4b28427da40a\\"",
       "Type": "String",
@@ -139,51 +127,25 @@ Object {
       },
       "Type": "AWS::IAM::Policy",
     },
+    "MyBucketF68F3FF0": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "BucketName": "some-artifact-bucket",
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+    },
     "MyLambdaFunction67CCA873": Object {
       "DependsOn": Array [
+        "MyLambdaFunctionServiceRoleDefaultPolicy23555F9E",
         "MyLambdaFunctionServiceRole313A4D46",
       ],
       "Properties": Object {
         "Code": Object {
-          "S3Bucket": Object {
-            "Ref": "AssetParameterscd9445adfe2f8618dd98ba606ee1aade4fc1318dfed23331a89df93a50ec2673S3BucketAB04CC1D",
-          },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameterscd9445adfe2f8618dd98ba606ee1aade4fc1318dfed23331a89df93a50ec2673S3VersionKeyA95CA6A1",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameterscd9445adfe2f8618dd98ba606ee1aade4fc1318dfed23331a89df93a50ec2673S3VersionKeyA95CA6A1",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "ZipFile": "test",
         },
         "FunctionName": "MyLambdaFunction",
-        "Handler": "index.handler",
+        "Handler": "lambda.handler",
         "MemorySize": 256,
         "Role": Object {
           "Fn::GetAtt": Array [
@@ -268,6 +230,70 @@ Object {
         ],
       },
       "Type": "AWS::IAM::Role",
+    },
+    "MyLambdaFunctionServiceRoleDefaultPolicy23555F9E": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "MyBucketF68F3FF0",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "MyBucketF68F3FF0",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": "s3:DeleteObject*",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "MyBucketF68F3FF0",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "MyLambdaFunctionServiceRoleDefaultPolicy23555F9E",
+        "Roles": Array [
+          Object {
+            "Ref": "MyLambdaFunctionServiceRole313A4D46",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
     "MySchedule8CBD34AD": Object {
       "Properties": Object {

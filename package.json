@@ -7,12 +7,12 @@
   "scripts": {
     "start": "ts-node -T src/start.ts",
     "test": "jest",
-    "clean": "rm -rf ./dist",
-    "build": "tsc && webpack",
+    "clean": "rm -rf ./dist && rm -rf ./build",
+    "build": "tsc && npm dedupe && webpack",
     "zip": "cd dist && zip -q -r lambda.zip lambda.js",
-    "dist": "npm ci && npm dedupe && npm t && npm run build && npm run zip",
+    "dist": "npm test && npm run build && npm run zip",
     "deploy": "aws lambda update-function-code --function-name MyLambdaFunction --zip-file fileb://dist/lambda.zip",
-    "stack": "npm run dist && cd infrastructure && npx cdk deploy"
+    "stack": "npm run dist && cd infrastructure && npm test && npx cdk deploy"
   },
   "husky": {
     "hooks": {
