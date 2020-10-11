@@ -6,7 +6,7 @@ export type Artifact = {
   size: number
 }
 
-export const housekeeping = async (s3: S3Client, bucket: string) => {
+export async function housekeeping(s3: S3Client, bucket: string) {
   const folders = await listTopLevelFolders(s3, bucket)
   await Promise.all(
     folders.map(async (folder) => {

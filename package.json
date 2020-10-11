@@ -23,25 +23,25 @@
     "node": "12.x"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^1.0.0-gamma.2",
-    "@aws-sdk/client-sts": "^1.0.0-gamma.2"
+    "@aws-sdk/client-s3": "^1.0.0-gamma.11",
+    "@aws-sdk/client-sts": "^1.0.0-gamma.11"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.2",
-    "@babel/preset-env": "^7.10.2",
-    "@babel/preset-typescript": "^7.10.1",
-    "@types/aws-lambda": "^8.10.56",
-    "@types/jest": "^26.0.0",
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-typescript": "^7.10.4",
+    "@types/aws-lambda": "^8.10.63",
+    "@types/jest": "^26.0.14",
     "@types/node": "^12.12.47",
-    "babel-jest": "^26.0.1",
+    "babel-jest": "^26.5.2",
     "babel-loader": "^8.1.0",
-    "husky": "^4.2.5",
-    "jest": "^26.0.1",
-    "prettier": "^2.0.5",
-    "ts-node": "^8.10.2",
-    "typescript": "^3.9.5",
-    "webpack": "^4.43.0",
-    "webpack-bundle-analyzer": "^3.8.0",
-    "webpack-cli": "^3.3.11"
+    "husky": "^4.3.0",
+    "jest": "^26.5.2",
+    "prettier": "2.x",
+    "ts-node": "9.x",
+    "typescript": "4.x",
+    "webpack": "5.x",
+    "webpack-bundle-analyzer": "^3.9.0",
+    "webpack-cli": "4.x"
   }
 }

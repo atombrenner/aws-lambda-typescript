@@ -26,5 +26,5 @@ module.exports = {
       },
     ],
   },
-  performance: { maxAssetSize: 120 * 1024, hints: 'error' },
+  performance: { maxAssetSize: 140 * 1024, hints: 'error' },
 }
