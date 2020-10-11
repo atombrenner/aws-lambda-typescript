@@ -11,6 +11,7 @@
     "build": "tsc && npm dedupe && webpack",
     "zip": "cd dist && zip -q -r lambda.zip lambda.js",
     "dist": "npm test && npm run build && npm run zip",
+    "esbuild": "esbuild --bundle --minify --target=node12 --platform=node --outfile=dist/start.js src/start.ts",
     "deploy": "aws lambda update-function-code --function-name MyLambdaFunction --zip-file fileb://dist/lambda.zip",
     "stack": "npm run dist && cd infrastructure && npm test && npx cdk deploy"
   },
@@ -35,6 +36,7 @@
     "@types/node": "^12.12.47",
     "babel-jest": "^26.5.2",
     "babel-loader": "^8.1.0",
+    "esbuild": "^0.7.14",
     "husky": "^4.3.0",
     "jest": "^26.5.2",
     "prettier": "2.x",
