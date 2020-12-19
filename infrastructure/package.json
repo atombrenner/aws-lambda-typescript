@@ -12,23 +12,23 @@
     "cdk": "cdk"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "1.45.0",
-    "@types/jest": "^25.2.1",
-    "@types/node": "10.17.5",
-    "jest": "^25.5.0",
-    "ts-jest": "^25.3.1",
-    "aws-cdk": "1.45.0",
-    "ts-node": "^8.1.0",
-    "typescript": "~3.7.2"
+    "@aws-cdk/assert": "1.x",
+    "@types/jest": "26.x",
+    "@types/node": "12.x",
+    "aws-cdk": "1.x",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.4.4",
+    "ts-node": "9.x",
+    "typescript": "4.x"
   },
   "dependencies": {
-    "@aws-cdk/aws-events": "^1.45.0",
-    "@aws-cdk/aws-events-targets": "^1.45.0",
-    "@aws-cdk/aws-iam": "^1.45.0",
-    "@aws-cdk/aws-lambda": "^1.45.0",
-    "@aws-cdk/aws-lambda-event-sources": "^1.45.0",
-    "@aws-cdk/aws-s3": "^1.45.0",
-    "@aws-cdk/core": "1.45.0",
+    "@aws-cdk/aws-events": "1.x",
+    "@aws-cdk/aws-events-targets": "1.x",
+    "@aws-cdk/aws-iam": "1.x",
+    "@aws-cdk/aws-lambda": "1.x",
+    "@aws-cdk/aws-lambda-event-sources": "1.x",
+    "@aws-cdk/aws-s3": "1.x",
+    "@aws-cdk/core": "1.x",
     "source-map-support": "^0.5.16"
   }
 }
