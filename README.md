@@ -22,21 +22,17 @@ Fork this repository to quickstart lambda development with Typescript and CDK an
 
 - [CDK](https://docs.aws.amazon.com/cdk/api/latest/docs/aws-construct-library.html) for managing infrastructure with AWS CloudFormation
 - [Babel](https://babeljs.io/)
+- [esbuild](https://esbuild.github.io/)
 - [Webpack](https://webpack.js.org/)
 - [Parcel](https://github.com/parcel-bundler/parcel)
 - [Jest](https://jestjs.io/) for testing
 - [Prettier](https://prettier.io/) for code formatting
 - [Husky](https://github.com/typicode/husky) for managing git hooks, e.g. run tests before committing
 
-## Gotchas
+## Learnings
 
-The generated artifact (bundle) got very big. It was necessary to
-- use webpack. Parcel and rollup bundles did not bundle the AWS SDK at all.
-- run `npm dedupe`, else webpack includes the same version of the tslib helper library multiple times in the same bundle
-- could not use ts-loader, as it breaks tree shaking. In theory, if tsc emits es2015 modules, it should work.
-  But setting tsconfig.json module to "es2015" breaks importing modules from node_modules
-- run `npx tsc` as a separate step before running because babel-loader only transpiles but does not type check
-
-## TODO
-Figure out how to use ts-loader, as this is using tsc which is much safer as the babel transpilation which has a long
-list of [caveeats](https://babeljs.io/docs/en/babel-plugin-transform-typescript#caveats) on its own
+Switched to use [esbuild](https://esbuild.github.io/) for transpiling and bundling lambda typescript source.
+Compared to webpack, esbuild configuration is minimal and simple and it is unbelievable fast.
+The generated bundle is slightly larger than with webpack, but for AWS Lambdas a waste of a few kilobyte doesn't matter.
+The important thing is, that all needed dependencies are bundled and all the noise from node_modules (tests, sources, readme, etc) is excluded.
+As esbuild is only transpiling typescript, a separat call to `tsc` run is necessary in `npm run dist`
