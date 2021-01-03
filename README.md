@@ -33,6 +33,11 @@ Fork this repository to quickstart lambda development with Typescript and CDK an
 
 Switched to use [esbuild](https://esbuild.github.io/) for transpiling and bundling lambda typescript source.
 Compared to webpack, esbuild configuration is minimal and simple and it is unbelievable fast.
-The generated bundle is slightly larger than with webpack, but for AWS Lambdas a waste of a few kilobyte doesn't matter.
+The generated bundle is slightly larger than with webpack, but for AWS Lambdas a waste of a few kilobytes doesn't matter.
 The important thing is, that all needed dependencies are bundled and all the noise from node_modules (tests, sources, readme, etc) is excluded.
-As esbuild is only transpiling typescript, a separat call to `tsc` run is necessary in `npm run dist`
+As esbuild is only transpiling typescript, a separate call to `tsc` run is necessary in `npm run dist`.
+
+- generate and use source-maps to have readable stack traces in production
+- `--sourcemap --sources-content=false` generates a small source-map without embedded sources
+- `--keepnames` does not minifiy names which makes stack traces even more human readable 
+- `NODE_OPTIONS=--enable-source-maps` enables experimental source-map support in AWS Lambda nodejs
