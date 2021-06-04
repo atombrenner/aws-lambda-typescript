@@ -28,7 +28,6 @@
     "@aws-cdk/aws-lambda": "1.x",
     "@aws-cdk/aws-lambda-event-sources": "1.x",
     "@aws-cdk/aws-s3": "1.x",
-    "@aws-cdk/core": "1.x",
-    "source-map-support": "^0.5.16"
+    "@aws-cdk/core": "1.x"
   }
 }

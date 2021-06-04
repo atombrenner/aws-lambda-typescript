@@ -21,8 +21,8 @@ export class LambdaStack extends Stack {
       timeout: Duration.minutes(5),
       logRetention: RetentionDays.ONE_WEEK, // this will trigger the creation of a custom lambda used by CDK which looks strange too me
       environment: {
-        NODE_OPTIONS: '--enable-source-maps'
-      }
+        NODE_OPTIONS: '--enable-source-maps',
+      },
     })
 
     const myBucket = new Bucket(this, 'MyBucketId', {
