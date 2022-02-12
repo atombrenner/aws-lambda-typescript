@@ -14,9 +14,9 @@ export class LambdaStack extends Stack {
     const myLambda = new Function(this, 'MyLambdaFunctionId', {
       functionName: 'MyLambdaFunction',
       description: 'Some description of my lambda function',
-      runtime: Runtime.NODEJS_12_X,
+      runtime: Runtime.NODEJS_14_X,
       handler: 'lambda.handler',
-      code: isTest ? Code.fromInline('test') : Code.fromAsset('../dist/lambda.zip'),
+      code: Code.fromAsset('../dist/lambda.zip'),
       memorySize: 256,
       timeout: Duration.minutes(5),
       logRetention: RetentionDays.ONE_WEEK, // this will trigger the creation of a custom lambda used by CDK which looks strange too me

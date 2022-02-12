@@ -11,30 +11,30 @@
     "build": "npm run esbuild",
     "zip": "cd dist && zip -q -r lambda.zip lambda.js lambda.js.map",
     "dist": "tsc && npm test && npm run build && npm run zip",
-    "esbuild": "esbuild --bundle --minify --keep-names --sourcemap --sources-content=false --target=node12 --platform=node --outfile=dist/lambda.js src/lambda.ts",
+    "esbuild": "esbuild --bundle --minify --keep-names --sourcemap --sources-content=false --target=node14 --platform=node --outfile=dist/lambda.js src/lambda.ts",
     "deploy": "aws lambda update-function-code --function-name MyLambdaFunction --zip-file fileb://dist/lambda.zip",
     "stack": "npm run dist && cd infrastructure && npm test && npx cdk deploy"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run dist"
+      "pre-commit": "npm run clean && npm run dist"
     }
   },
   "engines": {
     "node": ">=12"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1.0",
-    "@aws-sdk/client-sts": "^3.1.0"
+    "@aws-sdk/client-s3": "^3.20.0",
+    "@aws-sdk/client-sts": "^3.20.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
-    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-env": "^7.14.7",
     "@babel/preset-typescript": "^7.10.4",
-    "@tsconfig/node12": "^1.0.7",
+    "@tsconfig/node14": "^1.0.1",
     "@types/aws-lambda": "^8.10.68",
     "@types/jest": "^26.0.14",
-    "@types/node": "^12.12.47",
+    "@types/node": "^14.17.4",
     "babel-jest": "^27.0.2",
     "babel-loader": "^8.1.0",
     "esbuild": "^0.12.5",
