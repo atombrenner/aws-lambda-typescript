@@ -1,47 +1,59 @@
 {
   "name": "aws-lambda-typescript",
   "version": "1.0.0",
-  "description": "An AWS Lambda function in Typescript",
+  "description": "AWS Lambda with Typescript",
   "license": "GPL-3.0-only",
   "repository": "github:atombrenner/aws-lambda-typescript",
   "scripts": {
     "start": "ts-node -T src/start.ts",
     "test": "jest",
-    "clean": "rm -rf ./dist && rm -rf ./build",
-    "build": "npm run esbuild",
-    "zip": "cd dist && zip -q -r lambda.zip lambda.js lambda.js.map",
+    "clean": "rm -rf ./dist",
+    "build": "esbuild --bundle --minify --keep-names --sourcemap --sources-content=false --target=node14 --platform=node --outfile=dist/lambda.js src/lambda.ts",
+    "zip": "ts-node -T infrastructure/zip.ts",
     "dist": "tsc && npm test && npm run build && npm run zip",
-    "esbuild": "esbuild --bundle --minify --keep-names --sourcemap --sources-content=false --target=node14 --platform=node --outfile=dist/lambda.js src/lambda.ts",
-    "deploy": "aws lambda update-function-code --function-name MyLambdaFunction --zip-file fileb://dist/lambda.zip",
-    "stack": "npm run dist && cd infrastructure && npm test && npx cdk deploy"
+    "deploy": "ts-node -T infrastructure/deploy.ts",
+    "prepare": "husky install",
+    "stack": "ts-node -T infrastructure/stack.ts"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run clean && npm run dist"
-    }
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": 14
+          }
+        }
+      ],
+      "@babel/preset-typescript"
+    ]
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.20.0",
-    "@aws-sdk/client-sts": "^3.20.0"
+    "@aws-sdk/client-s3": "^3.86.0",
+    "@aws-sdk/client-sts": "^3.85.0"
   },
   "devDependencies": {
+    "@atombrenner/cfn-stack": "^2.0.2",
+    "@aws-sdk/client-lambda": "^3.85.0",
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-typescript": "^7.10.4",
     "@tsconfig/node14": "^1.0.1",
-    "@types/aws-lambda": "^8.10.68",
-    "@types/jest": "^27.4.0",
+    "@types/adm-zip": "^0.5.0",
+    "@types/aws-lambda": "^8.10.95",
+    "@types/jest": "^27.5.0",
     "@types/node": "^14.17.4",
-    "babel-jest": "^27.0.2",
+    "adm-zip": "^0.5.9",
+    "babel-jest": "^28.1.0",
     "babel-loader": "^8.1.0",
-    "esbuild": "^0.14.21",
-    "husky": "4.x",
-    "jest": "^27.0.4",
-    "prettier": "2.x",
-    "ts-node": "^10.0.0",
-    "typescript": "4.x"
+    "esbuild": "^0.14.38",
+    "husky": "^7.0.4",
+    "jest": "^28.1.0",
+    "prettier": "^2.6.2",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4"
   }
 }

@@ -1,29 +1,35 @@
 # AWS Lambda Typescript Boilerplate Code
 
-Fork this repository to quickstart lambda development with Typescript and CDK and the [AWS SDK JS V3](https://github.com/aws/aws-sdk-js-v3)
+Fork this repository to quickstart lambda function development with Typescript. Perfect for micro services.
+
+## Features
+
+- build and deploy in seconds, thanks to esbuild and using the AWS Lambda API directly
+- minified bundles (less space, faster startup)
+- full source map support with readable stack traces
+- infrastructure as code with Cloudformation
+- Jest as a testing framework
+- every dependency is an npm package, no need to install additional tools like aws-cli or zip
 
 ## Prerequisites
 
-- setup [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
-- run `npm ci && cd infrastructure && npm ci && npm dedupe`
+- run `npm ci `
 
 ## Commands
 
-- `npm t` executes test with jest
+- `npm test` executes test with jest
 - `npm run build` creates ./dist/lambda.js bundle
-- `npm run zip` creates the ./dist/lambda.zip from ./dist/lambda.js r
+- `npm run zip` creates the ./dist/lambda.zip from ./dist/lambda.js and ./dist/lambda.js.map
 - `npm run dist` runs all of the above steps
-- `npm run stack` uses CDK to create or update CloudFormation infrastructure, see [CDK readme](./infrastructure/README.md).
-  Add profile if necessary, e.g. `-- --profile atombrenner`. Will deploy lambda.zip if changed.
-- `npm run deploy` uses AWS CLI to just deploy the lambda.zip package code to the existing lambda function
-- `npm start` will run the lambda function locally
+- `npm run stack` creates or updates the CloudFormation stack
+- `npm run deploy` used to deploy ./dist/lambda.zip to the created lambda function
+- `npm start` will start the lambda function locally
 
 ## Tools
 
-- [CDK](https://docs.aws.amazon.com/cdk/api/latest/docs/aws-construct-library.html) for managing infrastructure with AWS CloudFormation
-- [Babel](https://babeljs.io/)
 - [esbuild](https://esbuild.github.io/)
 - [Jest](https://jestjs.io/) for testing
+- [Babel](https://babeljs.io/) as a Jest transformer
 - [Prettier](https://prettier.io/) for code formatting
 - [Husky](https://github.com/typicode/husky) for managing git hooks, e.g. run tests before committing
 
@@ -31,8 +37,15 @@ Fork this repository to quickstart lambda development with Typescript and CDK an
 
 - [Webpack](https://webpack.js.org/)
 - [Parcel](https://github.com/parcel-bundler/parcel)
+- [CDK](https://docs.aws.amazon.com/cdk/api/latest/docs/aws-construct-library.html) for managing infrastructure with AWS CloudFormation
 
 ## Learnings
+
+Dropped CDK because it was too heavy-weight for simple lambda micro services.
+It was hard to maintain a second package.json and tsconfig.json just for CDK.
+Having a single Cloudformation template and deploy it via API is much faster and easier to maintain.
+Also the function can be updated (deployed) by a simple API call, decoupled from other infrastructure updates.
+Deploying a new version or rolling back to an old one takes only a few seconds.,
 
 Switched to use [esbuild](https://esbuild.github.io/) for transpiling and bundling lambda typescript source.
 Compared to webpack, esbuild configuration is minimal and it is unbelievable fast.

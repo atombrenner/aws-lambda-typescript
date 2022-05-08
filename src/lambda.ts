@@ -8,7 +8,7 @@ const s3 = new S3Client({
   region: process.env['REGION'] || 'eu-central-1',
 })
 
-export async function handler(event: ScheduledEvent) {
+export async function handler(event: ScheduledEvent): Promise<void> {
   console.log(JSON.stringify(event, null, 2))
   console.log('Housekeeping started for Bucket ' + bucket)
   await housekeeping(s3, bucket)
