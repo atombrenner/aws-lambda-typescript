@@ -1,16 +1,40 @@
-import { ScheduledEvent } from 'aws-lambda'
-import { S3Client } from '@aws-sdk/client-s3'
-import { housekeeping } from './housekeeping'
+import { ALBResult, ScheduledEvent } from 'aws-lambda'
 
-const bucket = process.env['BUCKET'] || 'please-name-your-bucket'
+// TODO: add PR for new event type: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/aws-lambda
+interface HttpRequestEvent {
+  headers: Record<string, string>
+  isBase64Encoded: boolean
+  queryStringParameters?: Record<string, string>
+  rawPath: string
+  rawQueryString: string
+  requestContext: {
+    accountId: string
+    apiId: string
+    domainName: string
+    domainPrefix: string
+    http: {
+      method: string
+      path: string
+      protocol: string
+      sourceIp: string
+      userAgent: string
+    }
+    requestId: string
+    routeKey: string
+    stage: string
+    time: string
+    timeEpoch: number
+  }
+  routeKey: string
+  version: string
+}
 
-const s3 = new S3Client({
-  region: process.env['REGION'] || 'eu-central-1',
-})
+type HttpResponse = Partial<ALBResult>
 
-export async function handler(event: ScheduledEvent): Promise<void> {
-  console.log(JSON.stringify(event, null, 2))
-  console.log('Housekeeping started for Bucket ' + bucket)
-  await housekeeping(s3, bucket)
-  console.log('Housekeeping finished')
+export async function handler(event: HttpRequestEvent): Promise<HttpResponse> {
+  console.log(`${event.requestContext.http.method} ${event.rawPath}`)
+  return {
+    statusCode: 200,
+    body: JSON.stringify(event, null, 2),
+  }
 }

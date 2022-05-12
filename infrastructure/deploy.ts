@@ -2,12 +2,12 @@ import { LambdaClient, UpdateFunctionCodeCommand } from '@aws-sdk/client-lambda'
 import { readFileSync } from 'fs'
 
 async function main() {
-  const lambda = new LambdaClient({ region: 'REGION' })
+  const lambda = new LambdaClient({ region: 'eu-west-1' })
 
   const buffer = readFileSync('./dist/lambda.zip')
 
   const result = await lambda.send(
-    new UpdateFunctionCodeCommand({ FunctionName: '', ZipFile: buffer })
+    new UpdateFunctionCodeCommand({ FunctionName: 'typescript-lambda', ZipFile: buffer })
   )
 
   console.dir(result)

@@ -1,6 +1,6 @@
 # AWS Lambda Typescript Boilerplate Code
 
-Fork this repository to quickstart lambda function development with Typescript. Perfect for micro services.
+Fork this repository to quickstart lambda function development with Typescript. Perfect for microservices.
 
 ## Features
 
@@ -13,7 +13,7 @@ Fork this repository to quickstart lambda function development with Typescript. 
 
 ## Prerequisites
 
-- run `npm ci `
+- run `npm ci`
 
 ## Commands
 
@@ -24,6 +24,13 @@ Fork this repository to quickstart lambda function development with Typescript. 
 - `npm run stack` creates or updates the CloudFormation stack
 - `npm run deploy` used to deploy ./dist/lambda.zip to the created lambda function
 - `npm start` will start the lambda function locally
+
+Hint: Currently the region is hardcoded to eu-west-1. TODO: AWS environment parameter should work.
+Example
+
+```
+AWS_REGION=eu-central-1 AWS_PROFILE=atombrenner npm run stack
+```
 
 ## Tools
 

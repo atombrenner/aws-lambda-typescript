@@ -6,7 +6,6 @@
     "noEmit": true,
     "incremental": true,
     "tsBuildInfoFile": ".tsbuildinfo"
-
   },
-  "include": ["src"]
+  "include": ["src", "infrastructure/role-assumer.ts"]
 }
