@@ -1,37 +1,18 @@
-import { ALBResult, ScheduledEvent } from 'aws-lambda'
+import type { APIGatewayProxyEventV2, APIGatewayProxyStructuredResultV2, Context } from 'aws-lambda'
 
-// TODO: add PR for new event type: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/aws-lambda
-interface HttpRequestEvent {
-  headers: Record<string, string>
-  isBase64Encoded: boolean
-  queryStringParameters?: Record<string, string>
-  rawPath: string
-  rawQueryString: string
-  requestContext: {
-    accountId: string
-    apiId: string
-    domainName: string
-    domainPrefix: string
-    http: {
-      method: string
-      path: string
-      protocol: string
-      sourceIp: string
-      userAgent: string
-    }
-    requestId: string
-    routeKey: string
-    stage: string
-    time: string
-    timeEpoch: number
-  }
-  routeKey: string
-  version: string
-}
+// AWS Lambda Function Urls are reusing types from APIGateway
+// but many fields are not used or filled with default values
+// see: https://docs.aws.amazon.com/lambda/latest/dg/urls-invocation.html
+// It would be nice to have types with only the used fields and add them to:
+// https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/aws-lambda
+type LambdaFunctionUrlEvent = APIGatewayProxyEventV2
+type LambdaFunctionUrlResult = APIGatewayProxyStructuredResultV2
 
-type HttpResponse = Partial<ALBResult>
-
-export async function handler(event: HttpRequestEvent): Promise<HttpResponse> {
+export async function handler(
+  event: LambdaFunctionUrlEvent,
+  context: Context
+): Promise<LambdaFunctionUrlResult> {
+  console.log(context.functionName)
   console.log(`${event.requestContext.http.method} ${event.rawPath}`)
   return {
     statusCode: 200,
