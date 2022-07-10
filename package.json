@@ -8,7 +8,7 @@
     "housekeeping": "ts-node -T src/housekeeping/start.ts",
     "test": "jest",
     "clean": "rm -rf ./dist",
-    "build": "esbuild --bundle --minify --keep-names --sourcemap --sources-content=false --target=node14 --platform=node --outfile=dist/lambda.js src/lambda.ts",
+    "build": "esbuild --bundle --minify --keep-names --sourcemap --sources-content=false --target=node16 --platform=node --outfile=dist/lambda.js src/lambda.ts",
     "zip": "ts-node -T infrastructure/zip.ts",
     "dist": "tsc && npm test && npm run build && npm run zip",
     "deploy": "ts-node -T infrastructure/deploy.ts",
@@ -16,19 +16,19 @@
     "stack": "ts-node -T infrastructure/stack.ts"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.86.0",
-    "@aws-sdk/client-sts": "^3.85.0"
+    "@aws-sdk/client-s3": "^3.121.0",
+    "@aws-sdk/client-sts": "^3.121.0"
   },
   "devDependencies": {
     "@atombrenner/cfn-stack": "^2.0.2",
-    "@aws-sdk/client-lambda": "^3.90.0",
+    "@aws-sdk/client-lambda": "^3.121.0",
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-typescript": "^7.10.4",
-    "@tsconfig/node14": "^1.0.1",
+    "@tsconfig/node16": "^1.0.3",
     "@types/adm-zip": "^0.5.0",
     "@types/aws-lambda": "^8.10.97",
     "@types/jest": "^27.5.0",
