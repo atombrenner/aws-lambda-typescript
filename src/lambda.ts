@@ -9,13 +9,13 @@ type LambdaFunctionUrlEvent = APIGatewayProxyEventV2
 type LambdaFunctionUrlResult = APIGatewayProxyStructuredResultV2
 
 export async function handler(
-  event: LambdaFunctionUrlEvent,
-  context: Context
+    event: LambdaFunctionUrlEvent,
+    context: Context
 ): Promise<LambdaFunctionUrlResult> {
-  console.log(context.functionName)
-  console.log(`${event.requestContext.http.method} ${event.rawPath}`)
-  return {
-    statusCode: 200,
-    body: JSON.stringify(event, null, 2),
-  }
+    console.log(context.functionName)
+    console.log(`${event.requestContext.http.method} ${event.rawPath}`)
+    return {
+        statusCode: 200,
+        body: JSON.stringify(event, null, 2),
+    }
 }
