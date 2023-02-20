@@ -20,6 +20,6 @@ const generateAleatoryBigNumber = () => {
     const min = 10 ** 8;
     const max = 10 ** 9;
     const delta = max - min;
-    const randNumber = (Math.random() * delta) + min;
+    const randNumber = Math.floor(Math.random() * delta) + min;
     return randNumber;
 }
