@@ -20,6 +20,9 @@
     "npm": ">=8"
   },
   "dependencies": {
+    "aws-sdk": "^2.1318.0",
+    "dotenv": "^16.0.3",
+    "graphql-request": "^5.1.0"
   },
   "devDependencies": {
     "@atombrenner/cfn-stack": "^2.0.2",
