@@ -2,7 +2,7 @@ import { LambdaClient, UpdateFunctionCodeCommand } from '@aws-sdk/client-lambda'
 import { readFileSync } from 'fs'
 
 async function main() {
-  const lambda = new LambdaClient({ region: 'eu-west-1' })
+  const lambda = new LambdaClient({ region: 'us-east-1' })
 
   const buffer = readFileSync('./dist/lambda.zip')
 

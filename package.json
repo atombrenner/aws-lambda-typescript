@@ -8,7 +8,7 @@
     "housekeeping": "ts-node -T src/housekeeping/start.ts",
     "test": "jest",
     "clean": "rm -rf ./dist",
-    "build": "esbuild --bundle --minify --keep-names --sourcemap --sources-content=false --target=node18 --platform=node --outfile=dist/lambda.js src/lambda.ts",
+    "build": "esbuild --bundle --minify --keep-names --sourcemap --sources-content=false --target=node18 --platform=node --outfile=dist/index.js src/index.ts",
     "zip": "ts-node -T infrastructure/zip.ts",
     "dist": "tsc && npm test && npm run build && npm run zip",
     "deploy": "ts-node -T infrastructure/deploy.ts",
