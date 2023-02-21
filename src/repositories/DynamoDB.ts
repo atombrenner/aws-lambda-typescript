@@ -56,10 +56,17 @@ export default class DynamoDB implements Repository {
 
     async getItems(tableName: string, exclusiveStartKey?: string): Promise<GetItemsResult> {
         const exclusiveStartKeyObject = {
-            id: exclusiveStartKey || undefined
+            id: exclusiveStartKey
         };
 
-        const scanResult: AWS.DynamoDB.DocumentClient.ScanOutput = await this.scanItems(tableName, exclusiveStartKeyObject);
+        let scanResult: AWS.DynamoDB.DocumentClient.ScanOutput;
+
+        if (exclusiveStartKey) {
+            scanResult = await this.scanItems(tableName, exclusiveStartKeyObject);
+        } else {
+            scanResult = await this.scanItems(tableName);
+        }
+
 
         if (!scanResult.Items) return {
             items: []
