@@ -8,7 +8,7 @@ export default class GetService {
     ) {
     }
 
-    async execute(startKey?: string): Promise<GetItemsResult> {
+    async execute(startKey?: number): Promise<GetItemsResult> {
         const items = await this.repository.getItems(DDB_TABLE_NAME, startKey);
         return items;
     }

@@ -22,7 +22,8 @@ export default class GetController {
             if (!params || !params.startKey) {
                 result = await this.getService.execute();
             } else {
-                result = await this.getService.execute(params.startKey);
+                const startKey = parseInt(params.startKey);
+                result = await this.getService.execute(startKey);
             }
 
             return {
