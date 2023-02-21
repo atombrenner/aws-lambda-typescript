@@ -7,7 +7,7 @@ async function main() {
   const buffer = readFileSync('./dist/lambda.zip')
 
   const result = await lambda.send(
-    new UpdateFunctionCodeCommand({ FunctionName: 'typescript-lambda', ZipFile: buffer })
+    new UpdateFunctionCodeCommand({ FunctionName: 'plin-clientes-monday-CRM-geral', ZipFile: buffer })
   )
 
   console.dir(result)
