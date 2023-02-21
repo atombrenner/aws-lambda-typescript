@@ -1,6 +1,8 @@
 import Base from '../../src/repositories/Base';
 import DynamoDB from '../../src/repositories/DynamoDB';
 
+jest.setTimeout(100 * 1000);
+
 let repository: Base;
 
 beforeEach(() => {

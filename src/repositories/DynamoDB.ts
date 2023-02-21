@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk';
 
-import Repository from "./Base";
+import Repository, { Item } from "./Base";
 
 export default class DynamoDB implements Repository {
 
@@ -34,8 +34,8 @@ export default class DynamoDB implements Repository {
             .then(() => { });
     }
 
-    async getAllItems(tableName: string): Promise<object[]> {
-        const items = [];
+    async getAllItems(tableName: string): Promise<Item[]> {
+        const items: Item[] = [];
         let hasPagination = false;
         let exclusiveStartKey = null;
 
@@ -45,7 +45,9 @@ export default class DynamoDB implements Repository {
             exclusiveStartKey = scanResult.LastEvaluatedKey;
 
             if (scanResult.Items) {
-                items.push(...scanResult.Items);
+                const rawItems = [...scanResult.Items];
+                const mappedItems: Item[] = rawItems.map(item => ({ ...item, id: item.id }));
+                items.push(...mappedItems);
             }
         } while (hasPagination);
 
@@ -58,5 +60,6 @@ export default class DynamoDB implements Repository {
             ExclusiveStartKey: exclusiveStartKey
         }).promise();
     }
-
 }
+
+
