@@ -1,4 +1,4 @@
-import Repository, { Item } from "./Base";
+import Repository, { GetItemsResult, Item } from "./Base";
 
 const data: Item[] = require('./mockAllItems.json');
 
@@ -8,6 +8,12 @@ export default class DynamoDB implements Repository {
 
     constructor() {
         this.data = data;
+    }
+
+    async getItems(tableName: string, exclusiveStartKey?: string): Promise<GetItemsResult> {
+        return {
+            items: this.data
+        };
     }
 
     async createOrUpdateItem(id: number, object: object, tableName: string): Promise<void> {
