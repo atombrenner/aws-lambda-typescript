@@ -28,14 +28,14 @@ export default class MondayGQLGateway implements MondayGateway {
 
         return this.graphQLClient.request(query)
             .then(result => {
-                const response: GetAllItemsResponse = result;
+                const response: GetItemsResponse = result;
                 const board = response.boards[0];
                 const itemsIds = board.items.map(item => parseInt(item.id));
                 return itemsIds;
             });
     }
 
-    async getItems(boardId: number, page: number, limit: number): Promise<GetAllItemsResponseItemToReturn[]> {
+    async getItems(boardId: number, page: number, limit: number): Promise<GetItemsResponseItemToReturn[]> {
         const query = gql`
             query {
                 boards(ids: ${boardId}) {
@@ -52,7 +52,7 @@ export default class MondayGQLGateway implements MondayGateway {
 
         return this.graphQLClient.request(query)
             .then(result => {
-                const response: GetAllItemsResponse = result;
+                const response: GetItemsResponse = result;
                 const board = response.boards[0];
                 const items = board.items.map(item => ({
                     ...item,
@@ -61,27 +61,46 @@ export default class MondayGQLGateway implements MondayGateway {
                 return items;
             });
     }
+
+    async getAllItems(boardId: number): Promise<GetItemsResponseItemToReturn[]> {
+        const allItems = [];
+
+        let hasPagination = false;
+        let page = 1;
+        const limit = 1000;
+
+        do {
+            const moreItems = await this.getItems(boardId, page, limit);
+            allItems.push(...moreItems);
+
+            hasPagination = moreItems.length === limit;
+            if (hasPagination) page += 1;
+
+        } while (hasPagination);
+
+        return allItems;
+    }
 }
 
-interface GetAllItemsResponse {
-    boards: GetAllItemsResponseBoard[]
+interface GetItemsResponse {
+    boards: GetItemsResponseBoard[]
 }
 
-interface GetAllItemsResponseBoard {
-    items: GetAllItemsResponseItem[]
+interface GetItemsResponseBoard {
+    items: GetItemsResponseItem[]
 }
 
-interface GetAllItemsResponseItem {
+interface GetItemsResponseItem {
     id: string,
-    column_values?: GetAllItemsResponseColumnValue[]
+    column_values?: GetItemsResponseColumnValue[]
 }
 
-export interface GetAllItemsResponseItemToReturn {
+export interface GetItemsResponseItemToReturn {
     id: number,
-    column_values?: GetAllItemsResponseColumnValue[]
+    column_values?: GetItemsResponseColumnValue[]
 }
 
-interface GetAllItemsResponseColumnValue {
+interface GetItemsResponseColumnValue {
     id: string,
     value: string | null
 }
