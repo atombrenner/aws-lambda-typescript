@@ -43,7 +43,8 @@ export default class MondayGQLGateway implements MondayGateway {
                         id,
                         column_values(ids: []) {
                             id,
-                            value
+                            value,
+                            text
                         }
                     }
                 }
@@ -67,7 +68,7 @@ export default class MondayGQLGateway implements MondayGateway {
 
         let hasPagination = false;
         let page = 1;
-        const limit = 1000;
+        const limit = 500;
 
         do {
             const moreItems = await this.getItems(boardId, page, limit);
