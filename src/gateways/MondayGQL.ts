@@ -41,6 +41,7 @@ export default class MondayGQLGateway implements MondayGateway {
                 boards(ids: ${boardId}) {
                     items(limit: ${limit}, page: ${page}) {
                         id,
+                        name,
                         column_values(ids: []) {
                             id,
                             value,
