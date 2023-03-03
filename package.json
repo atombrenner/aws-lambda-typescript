@@ -8,7 +8,7 @@
     "housekeeping": "ts-node -T src/housekeeping/start.ts",
     "test": "jest",
     "clean": "rm -rf ./dist",
-    "build": "esbuild --bundle --minify --keep-names --sourcemap --sources-content=false --target=node18 --platform=node --outfile=dist/lambda.js src/lambda.ts",
+    "build": "esbuild --bundle --minify --keep-names --sourcemap --sources-content=false --target=node18 --platform=node --outfile=dist/index.js src/index.ts",
     "zip": "ts-node -T infrastructure/zip.ts",
     "dist": "tsc && npm test && npm run build && npm run zip",
     "deploy": "ts-node -T infrastructure/deploy.ts",
@@ -20,8 +20,11 @@
     "npm": ">=8"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.128.0",
-    "@aws-sdk/client-sts": "^3.218.0"
+    "aws-sdk": "^2.1318.0",
+    "dotenv": "^16.0.3",
+    "graphql-request": "^5.1.0",
+    "jsum": "^2.0.0-alpha.4",
+    "lambda-router-typescript": "^1.0.3"
   },
   "devDependencies": {
     "@atombrenner/cfn-stack": "^2.0.2",
@@ -33,6 +36,7 @@
     "@types/adm-zip": "^0.5.0",
     "@types/aws-lambda": "^8.10.97",
     "@types/jest": "^29.2.3",
+    "@types/jsum": "^0.1.0",
     "@types/node": "^18.11.9",
     "adm-zip": "^0.5.9",
     "babel-jest": "^29.3.1",
