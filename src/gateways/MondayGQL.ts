@@ -45,6 +45,7 @@ export default class MondayGQLGateway implements MondayGateway {
                         column_values(ids: []) {
                             id,
                             value,
+                            title,
                             text
                         }
                     }

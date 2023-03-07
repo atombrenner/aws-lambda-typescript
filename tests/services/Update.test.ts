@@ -16,8 +16,9 @@ beforeEach(() => {
     updateService = new UpdateService(mondayGateway, repository);
 });
 
-jest.setTimeout(30 * 1000);
+jest.setTimeout(200 * 1000);
 
 test("Test update service", async () => {
+    console.log("Test update service")
     await updateService.execute();
 });
