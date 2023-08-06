@@ -1,9 +1,9 @@
 import { STS, AssumeRoleRequest } from '@aws-sdk/client-sts'
-import { Credentials } from '@aws-sdk/types'
+import { AwsCredentialIdentity } from '@aws-sdk/types'
 
 // TODO: why the heck is this glue code not part of the aws sdk?
 export const roleAssumer = async (
-  sourceCreds: Credentials,
+  sourceCreds: AwsCredentialIdentity,
   assumeRoleRequest: AssumeRoleRequest
 ) => {
   const sts = new STS({ region: 'eu-west-1', credentials: sourceCreds })
