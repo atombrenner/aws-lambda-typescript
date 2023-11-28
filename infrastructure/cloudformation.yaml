@@ -24,9 +24,9 @@ Resources:
     Properties:
       FunctionName: !Ref AWS::StackName
       Description: aws-lambda-typescript-example
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       Timeout: 3
-      MemorySize: 256
+      MemorySize: 512
       Handler: lambda.handler
       Code:
         ZipFile: 'placeholder - do not change'
