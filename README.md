@@ -9,7 +9,8 @@ Fork this repository to quickstart lambda function development with Typescript. 
 - full source map support with readable stack traces
 - infrastructure as code with Cloudformation
 - Jest as a testing framework
-- the whole tool chain is an npm package, no need to install additional tools like aws-cli or zip
+- the whole tool chain are just typescript files, no need to install additional tools like aws-cli or zip
+- uses tsx to execute typescript files (which is also leveraging esbuild)
 
 ## Prerequisites
 
@@ -35,6 +36,7 @@ AWS_REGION=eu-central-1 AWS_PROFILE=atombrenner npm run stack
 ## Tools
 
 - [esbuild](https://esbuild.github.io/)
+- [tsx](https://github.com/privatenumber/tsx/) for executing scripts written in TypeScript
 - [Jest](https://jestjs.io/) for testing
 - [Babel](https://babeljs.io/) as a Jest transformer
 - [Prettier](https://prettier.io/) for code formatting
@@ -42,17 +44,33 @@ AWS_REGION=eu-central-1 AWS_PROFILE=atombrenner npm run stack
 
 ### Deprecated Tools
 
+- [ts-node](https://github.com/TypeStrong/ts-node)
 - [Webpack](https://webpack.js.org/)
 - [Parcel](https://github.com/parcel-bundler/parcel)
 - [CDK](https://docs.aws.amazon.com/cdk/api/latest/docs/aws-construct-library.html) for managing infrastructure with AWS CloudFormation
 
 ## Learnings
 
+### Replaced ts-node with tsx
+
+I used ts-node for many years, it helped me and many of my teams to write automation scripts
+in TypeScript instead of bash or ruby. With the introduction of ESM and the slow
+migration from CommonJS to ESM correct configuration of ts-node got harder and harder.
+With node 20 ts-node stopped working for ESM modules at all. Not the fault of ts-node (see
+[here](https://github.com/nodejs/node/issues/47880) for details) but even after months
+it was never fixed or the workaround was too esoteric for me.
+I found tsx, which is powered by esbuild, and it works like a charm for scripts that are
+part of an esm package without special config.
+
+### Dropped CDK
+
 Dropped CDK because it was too heavy-weight for simple lambda microservices.
 It was hard to maintain a second package.json and tsconfig.json just for CDK.
 Having a single Cloudformation template and deploy it via API is much faster and easier to maintain.
 The function can be updated (deployed) by a simple API call, decoupled from other infrastructure updates.
 Deploying a new version or rolling back to an old one takes only a few seconds.,
+
+### Using esbuild
 
 Switched to use [esbuild](https://esbuild.github.io/) for transpiling and bundling lambda typescript source.
 Compared to webpack, esbuild configuration is minimal and it is unbelievably fast.

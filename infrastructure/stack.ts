@@ -3,7 +3,9 @@ import * as fs from 'fs'
 
 async function main() {
   const params = { SomeParameter: 'example parameter' }
-  const template = fs.readFileSync(`${__dirname}/cloudformation.yaml`, { encoding: 'utf-8' })
+  const template = fs.readFileSync(new URL('./cloudformation.yaml', import.meta.url), {
+    encoding: 'utf-8',
+  })
   const stack = new Stack({ name: `typescript-lambda`, region: 'eu-west-1' })
 
   // create or update stack, print events and wait for completion
@@ -16,6 +18,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error(err.message)
+  console.error(err.name ?? '', err.message)
   process.exit(1) // exit the process with an error code
 })
