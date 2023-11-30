@@ -3,11 +3,13 @@
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "isolatedModules": true,
     "allowImportingTsExtensions": true,
     "declaration": false,
     "sourceMap": true,
     "noEmit": true,
-    "noUncheckedIndexedAccess": true
-  },
-  "include": ["src", "infrastructure/role-assumer.ts"]
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  }
 }
