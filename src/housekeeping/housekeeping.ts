@@ -13,7 +13,7 @@ export async function housekeeping(s3: S3Client, bucket: string) {
       const artifacts = await listArtifacts(s3, bucket, folder)
       const artifactsToDelete = getArtifactsToDelete(artifacts)
       await deleteArtifacts(s3, bucket, folder, artifactsToDelete)
-    })
+    }),
   )
 }
 
@@ -65,7 +65,7 @@ async function deleteArtifacts(
   s3: S3Client,
   Bucket: string,
   folder: string,
-  artifacts: readonly Artifact[]
+  artifacts: readonly Artifact[],
 ) {
   if (artifacts.length === 0) return
   artifacts = artifacts.slice(0, 1000)

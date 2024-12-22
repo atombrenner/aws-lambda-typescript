@@ -14,7 +14,9 @@
     "dist": "tsc && npm test && npm run build && npm run zip",
     "deploy": "tsx infrastructure/deploy.ts",
     "prepare": "husky",
-    "stack": "tsx infrastructure/stack.ts"
+    "stack": "tsx infrastructure/stack.ts",
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write ."
   },
   "engines": {
     "node": ">=22",
