@@ -9,7 +9,7 @@ Fork this repository to quickstart lambda function development with Typescript. 
 - full source map support with readable stack traces
 - infrastructure as code with Cloudformation
 - Jest as a testing framework
-- the whole tool chain are just typescript files, no need to install additional tools like aws-cli or zip
+- the whole tool chain is just typescript files, no need to install additional tools like aws-cli or zip
 - uses tsx to execute typescript files (which is also leveraging esbuild)
 
 ## Prerequisites
@@ -26,8 +26,9 @@ Fork this repository to quickstart lambda function development with Typescript. 
 - `npm run deploy` used to deploy ./dist/lambda.zip to the created lambda function
 - `npm start` will start the lambda function locally
 
-Hint: Currently the region is hardcoded to eu-west-1. TODO: AWS environment parameter should work.
-Example
+Hint: Currently the region and profile is hardcoded to eu-west-1 in [stack.ts](./infrastructure/stack.ts).
+You can remove this and use AWS environment parameters instead.
+Example:
 
 ```
 AWS_REGION=eu-central-1 AWS_PROFILE=atombrenner npm run stack

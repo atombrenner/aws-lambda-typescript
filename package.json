@@ -9,16 +9,16 @@
     "test": "jest",
     "test:housekeeping": "tsx src/housekeeping/start.ts",
     "clean": "rm -rf ./dist",
-    "build": "esbuild --bundle --minify --keep-names --sourcemap --sources-content=false --target=node20 --platform=node --outfile=dist/lambda.js src/lambda.ts",
+    "build": "esbuild --bundle --minify --keep-names --sourcemap --sources-content=false --target=node22 --platform=node --outfile=dist/lambda.js src/lambda.ts",
     "zip": "tsx infrastructure/zip.ts",
     "dist": "tsc && npm test && npm run build && npm run zip",
     "deploy": "tsx infrastructure/deploy.ts",
-    "prepare": "husky install",
+    "prepare": "husky",
     "stack": "tsx infrastructure/stack.ts"
   },
   "engines": {
-    "node": ">=18",
-    "npm": ">=8"
+    "node": ">=22",
+    "npm": ">=10"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.460.0",
@@ -30,19 +30,19 @@
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-typescript": "^7.10.4",
-    "@tsconfig/node20": "^20.1.2",
+    "@tsconfig/node22": "^22.0.0",
     "@types/adm-zip": "^0.5.0",
     "@types/aws-lambda": "^8.10.97",
     "@types/jest": "^29.2.3",
-    "@types/node": "^20.10.0",
+    "@types/node": "^22.10.2",
     "adm-zip": "^0.5.9",
     "babel-jest": "^29.3.1",
     "babel-loader": "^9.1.0",
-    "esbuild": "~0.23.0",
-    "husky": "^8.0.1",
+    "esbuild": "~0.24.2",
+    "husky": "^9.1.7",
     "jest": "^29.3.1",
     "prettier": "^3.0.1",
     "tsx": "^4.6.0",
-    "typescript": "^5.3.2"
+    "typescript": "^5.6.0"
   }
 }

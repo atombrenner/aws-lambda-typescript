@@ -1,12 +1,16 @@
 import { Stack } from '@atombrenner/cfn-stack'
-import * as fs from 'fs'
+import { readFileSync } from 'fs'
 
 async function main() {
   const params = { SomeParameter: 'example parameter' }
-  const template = fs.readFileSync(new URL('./cloudformation.yaml', import.meta.url), {
+  const template = readFileSync(new URL('./cloudformation.yaml', import.meta.url), {
     encoding: 'utf-8',
   })
-  const stack = new Stack({ name: `typescript-lambda`, region: 'eu-west-1' })
+  const stack = new Stack({
+    name: `typescript-lambda`,
+    region: 'eu-west-1',
+    profile: 'atombrenner',
+  })
 
   // create or update stack, print events and wait for completion
   await stack.createOrUpdate(template, params)
